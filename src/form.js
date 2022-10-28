@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import './App'
-
+import {usestate} from 'react'
 
 class Form extends Component {
-
-    state = {
-        formvalues:''
-        
-    }
+    
 
     handleSubmit =(e) =>{
         e.preventDefault();
@@ -19,13 +15,10 @@ class Form extends Component {
     }
 
     handleInputChange =(e) =>{
-        const {name, value} = e.target
-        this.setState({
-            formvalues: e.target.value
-        })
-
-
-
+        const [formvalues, setFormValues] = useState ()
+        const {name, value} = e.target;
+        setFormValues({...formvalues,[name]: value})
+       
     }
 
 
