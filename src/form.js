@@ -1,61 +1,57 @@
-import React, { Component } from 'react'
 import './App'
 import { useState } from 'react'
 
 
 
 
-class Form extends Component {
-    
-    handleSubmit =(e) =>{
+const Form= () => {
+
+    const [formvalues, setFormValues] = useState ({})
+
+    const handleInputChange =(e) =>{                              //Pega os dados que o usuário está inserindo em tempo real.
+        const {name, value} = e.target;
+        setFormValues({...formvalues,[name]: value})
+
+    }
+
+    const handleSubmit =(e) =>{                                   //Pega os dados que o usuário preencheu no formulário.
         e.preventDefault();
         const formData = new FormData(e.target)
         const data = Object.fromEntries(formData)
-
         console.log('***handleSubmit', data)
-
     }
 
-    handleInputChange =(e) =>{
-        const [formvalues, setFormValues] = useState ()
-        const {name, value} = e.target;
-        setFormValues({...formvalues,[name]: value})
-        console.log('***handleinputchange', formvalues)
+    console.log('***handleinputchange', formvalues)
 
-    }
-
-    render () {
         return (
             <body>
                 
                 <div class="content">
 
-
-
-                    <form onSubmit= {this.handleSubmit} id="form1">
+                    <form onSubmit= {handleSubmit}>  
 
                         <h1>Dados Pessoais</h1>
 
                         <div>
                             <label>Nome:</label><br></br>
-                            <input onChange={this.handleInputChange} type="text" name="nome" id="nome" class="inputs" required />
+                            <input onChange={handleInputChange} type="text" name="nome" class="inputs" required value={formvalues.nome|| ''}/>
                         </div>
 
                         <div>
                             <label>E-mail:</label><br></br>
-                            <input onChange={this.handleInputChange} type="email" name="email" id="email" class="inputs" required />
+                            <input onChange={handleInputChange} type="email" name="email" class="inputs" required value={formvalues.email|| ''}/>
                             <span class="span-required">Digite um e-mail válido</span>
                         </div>
 
                         <div>
                             <label>Telefone:</label><br></br>
-                            <input onChange={this.handleInputChange} type="tel" id="telefone" name="telefone" class="inputs" required />
+                            <input onChange={handleInputChange} type="tel" name="telefone" class="inputs" required value={formvalues.telefone|| ''}/>
                             <span class="span-required">Digite um telefone válido</span>
                         </div>
 
                         <div>
                             <label>CPF:</label><br></br>
-                            <input onChange={this.handleInputChange} type="text" name="cpf" id="cpf" class="inputs" required />
+                            <input onChange={handleInputChange} type="text" name="cpf" class="inputs" required value={formvalues.cpf|| ''} />
                             <span class="span-required">Digite um CPF válido</span>
                         </div>
 
@@ -63,7 +59,7 @@ class Form extends Component {
 
                         <div>
                             <label>Escolha um ou mais países</label><br></br>
-                            <select onChange={this.handleInputChange} name="pais" required class="selects">
+                            <select onChange={handleInputChange} name="pais" required class="selects" value={formvalues.pais|| ''}>
                                 <option select disabled option="">Selecione</option>
                                 <option>a</option>
                                 <option>b</option>
@@ -72,7 +68,7 @@ class Form extends Component {
                         </div>
                         <div>
                             <label>Escolha uma ou mais cidades</label><br></br>
-                            <select onChange={this.handleInputChange} name="cidade" required class="selects">
+                            <select onChange={handleInputChange} name="cidade" required class="selects">
                                 <option select disabled option="">Selecione</option>
                                 <option>a</option>
                                 <option>b</option>
@@ -86,7 +82,8 @@ class Form extends Component {
             </body>
    
         )
-    }
+    
+    
 }
 
 
