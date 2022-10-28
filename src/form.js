@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import './App'
-import {usestate} from 'react'
+import { useState } from 'react'
+
+
+
 
 class Form extends Component {
     
-
     handleSubmit =(e) =>{
         e.preventDefault();
         const formData = new FormData(e.target)
@@ -18,9 +20,9 @@ class Form extends Component {
         const [formvalues, setFormValues] = useState ()
         const {name, value} = e.target;
         setFormValues({...formvalues,[name]: value})
-       
-    }
+        console.log('***handleinputchange', formvalues)
 
+    }
 
     render () {
         return (
@@ -84,7 +86,6 @@ class Form extends Component {
             </body>
    
         )
-        
     }
 }
 
