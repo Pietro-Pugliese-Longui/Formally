@@ -93,7 +93,23 @@ button[type="submit"]:hover {
     background-color: var(--color-purple2);
 }
 
-.span-required{
-    display:none;
+.status{
+    color: var(--color-purple1);
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: -15px;
+    font-weight: bold;
+
+}
+
+.status1{
+    color: var(--color-red);
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: -15px;
+    font-weight: bold;
+
 }
 
