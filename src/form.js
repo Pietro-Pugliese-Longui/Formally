@@ -1,11 +1,48 @@
 import './App'
 import { useState } from 'react'
 import axios from 'axios';
-
+import * as React from 'react';
+import Checkbox from '@mui/material/Checkbox';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 
 
 const Form= () => {
+
+    const paises = async () => {
+        const API_URL = "https://amazon-api.sellead.com/country"
+        try {
+          const res = await axios.get(API_URL, {
+            headers: {},
+            params: {}
+          });
+          setFormValues({ 
+            ...formvalues, 
+            pais: res.data,
+          })
+        } catch (err) {
+          console.log(err);
+        }
+    };
+
+    const cidades = async () => {
+        const API_URL = "https://amazon-api.sellead.com/city"
+        try {
+          const res = await axios.get(API_URL, {
+            headers: {},
+            params: {}
+          });
+          setFormValues({ 
+            ...formvalues, 
+            cidade: res.data,
+          })
+        } catch (err) {
+          console.log(err);
+        }
+    };
 
     const [formvalues, setFormValues] = useState ({})
 
@@ -48,14 +85,13 @@ const Form= () => {
 
     console.log('***handleinputchange', formvalues)
 
-    
-    
+
     function validate(){                                                        //Validação do formulário
 
         const campos = document.querySelectorAll('.inputs')
-        const emailregex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i
-        const telefoneregex = /^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/
-        const cpfregex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
+        const emailregex = /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])\x22))\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])\x5d))$/
+        const telefoneregex = /^[1-9]{3}\d{7,8}$/
+        const cpfregex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/
 
 
 
