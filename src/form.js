@@ -1,5 +1,5 @@
 import './App'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios';
 import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
@@ -13,14 +13,15 @@ import { getPaginationItemUtilityClass } from '@mui/material';
 
 const Form= () => {
 
+   
     const [formvalues, setFormValues] = useState ({
-        listadecidades:[],
-        listadepaises:[],
+        citieslist:[],
+        countrieslist:[],
     })
 
     const [status, setStatus] = useState({
         type: '',
-        mensagem: ''
+        message: ''
       });
 
     const handleInputChange =(e) =>{                              //Pega os dados que o usuário está inserindo em tempo real.
@@ -43,12 +44,12 @@ const Form= () => {
         if (saveDataForm) {
             setStatus({
             type: 'success',
-            mensagem: "Usuário cadastrado com sucesso!"
+            message: "Usuário cadastrado com sucesso!"
             });
         } else {
             setStatus({
             type: 'error',
-            mensagem: "Erro: Usuário não cadastrado com sucesso!"
+            message: "Erro: Usuário não cadastrado com sucesso!"
             });
         }
 
@@ -82,7 +83,9 @@ const Form= () => {
         return true;
     }
 
-    const paises = async () => {
+    
+
+    const countries = async () => {
         const API_URL = "https://amazon-api.sellead.com/country"
         try {
           const res = await axios.get(API_URL, {
@@ -91,14 +94,14 @@ const Form= () => {
           });
           setFormValues({ 
             ...formvalues, 
-            listadepaises: res.data,
+            countrieslist: res.data,
           })
         } catch (err) {
           console.log(err);
         }
     };
 
-    const cidades = async () => {
+    const cities = async () => {
         const API_URL = "https://amazon-api.sellead.com/city"
         try {
           const res = await axios.get(API_URL, {
@@ -107,14 +110,18 @@ const Form= () => {
           });
           setFormValues({ 
             ...formvalues, 
-            listadecidades: res.data,
+            citieslist: res.data,
           })
         } catch (err) {
           console.log(err);
         }
     };
 
+    useEffect (() => { countries() });
 
+
+
+    
         return (
             <body>
                 
@@ -149,6 +156,7 @@ const Form= () => {
                         <div>
                             <label>Escolha um ou mais países</label><br></br>
                             <Select
+                            name="país"
                             class="selects"
                             labelId="demo-multiple-checkbox-label"
                             id="demo-multiple-checkbox"
@@ -158,9 +166,9 @@ const Form= () => {
                             input={<OutlinedInput label="Tag" />}
                             renderValue={(selected) => selected.join(', ')}
                             >
-                            {formvalues.listadepaises.map((name) => (
+                            {formvalues.countrieslist.map((name) => (
                                 <MenuItem key={name} value={name}>
-                                <Checkbox checked={formvalues.pais.indexOf(name) > -1} />
+                                <Checkbox checked={formvalues.countrieslist.indexOf(name) > -1} />
                                 <ListItemText primary={name} />
                                 </MenuItem>
                             ))}
@@ -175,7 +183,7 @@ const Form= () => {
                         <div>
                             <label>Escolha uma ou mais cidades</label><br></br>
                             <select onChange={handleInputChange} name="cidade"  class="selects">
-                                <option select disabled option="">Selecione</option>
+                                <option select disabled option>Selecione</option>
                                 <option>a</option>
                                 <option>b</option>
                                 <option>c</option>
