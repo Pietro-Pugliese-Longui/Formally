@@ -4,11 +4,10 @@ import axios from 'axios';
 import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { getPaginationItemUtilityClass } from '@mui/material';
+import Select from '@mui/material/Select';
+import { Code } from '@mui/icons-material';
 
 
 const Form= () => {
@@ -117,7 +116,11 @@ const Form= () => {
         }
     };
 
-    useEffect (() => { countries() });
+     useEffect (() => {    //Popula citieslist e countrieslist 
+       countries();
+        cities();
+
+     });
 
 
 
@@ -156,18 +159,18 @@ const Form= () => {
                         <div>
                             <label>Escolha um ou mais países</label><br></br>
                             <Select
-                            name="país"
+                            name="pais"
                             class="selects"
                             labelId="demo-multiple-checkbox-label"
                             id="demo-multiple-checkbox"
                             multiple
-                            value={formvalues.pais||''}
+                            value={formvalues.pais||[]}
                             onChange={handleInputChange}
                             input={<OutlinedInput label="Tag" />}
                             renderValue={(selected) => selected.join(', ')}
                             >
                             {formvalues.countrieslist.map((name) => (
-                                <MenuItem key={name} value={name}>
+                                <MenuItem key={Code} value={name}>
                                 <Checkbox checked={formvalues.countrieslist.indexOf(name) > -1} />
                                 <ListItemText primary={name} />
                                 </MenuItem>
@@ -183,6 +186,13 @@ const Form= () => {
                         <div>
                             <label>Escolha uma ou mais cidades</label><br></br>
                             <select onChange={handleInputChange} name="cidade"  class="selects">
+                            {formvalues.citieslist.map((name)=>(
+                                <option
+                                    key={Code}
+                                    value={name}
+                                >{name}</option> 
+                            ))} 
+                                
                                 <option select disabled option>Selecione</option>
                                 <option>a</option>
                                 <option>b</option>
