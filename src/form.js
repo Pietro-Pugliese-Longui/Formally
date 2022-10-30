@@ -3,11 +3,11 @@ import { useState } from 'react'
 import axios from 'axios';
 import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 
 const Form= () => {
@@ -143,6 +143,23 @@ const Form= () => {
 
                         <div>
                             <label>Escolha um ou mais países</label><br></br>
+                            <InputLabel id="demo-multiple-checkbox-label">Selecione</InputLabel>
+                            <Select
+                            labelId="demo-multiple-checkbox-label"
+                            id="demo-multiple-checkbox"
+                            multiple
+                            value={formvalues.pais}
+                            onChange={handleInputChange}
+                            input={<OutlinedInput label="Tag" />}
+                            renderValue={(selected) => selected.join(', ')}
+                            >
+                            {paises.map((name) => (
+                                <MenuItem key={name} value={name}>
+                                <Checkbox checked={formvalues.pais.indexOf(name) > -1} />
+                                <ListItemText primary={name} />
+                                </MenuItem>
+                            ))}
+                            </Select>
                             <select onChange={handleInputChange} name="pais"  class="selects" value={formvalues.pais|| ''}>
                                 <option select disabled option="">Selecione</option>
                                 <option>a</option>
