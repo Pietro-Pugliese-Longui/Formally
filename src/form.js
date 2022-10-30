@@ -8,43 +8,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { getPaginationItemUtilityClass } from '@mui/material';
 
 
 const Form= () => {
 
-    const paises = async () => {
-        const API_URL = "https://amazon-api.sellead.com/country"
-        try {
-          const res = await axios.get(API_URL, {
-            headers: {},
-            params: {}
-          });
-          setFormValues({ 
-            ...formvalues, 
-            pais: res.data,
-          })
-        } catch (err) {
-          console.log(err);
-        }
-    };
-
-    const cidades = async () => {
-        const API_URL = "https://amazon-api.sellead.com/city"
-        try {
-          const res = await axios.get(API_URL, {
-            headers: {},
-            params: {}
-          });
-          setFormValues({ 
-            ...formvalues, 
-            cidade: res.data,
-          })
-        } catch (err) {
-          console.log(err);
-        }
-    };
-
-    const [formvalues, setFormValues] = useState ({})
+    const [formvalues, setFormValues] = useState ({
+        listadecidades:[],
+        listadepaises:[],
+    })
 
     const [status, setStatus] = useState({
         type: '',
@@ -89,7 +61,7 @@ const Form= () => {
     function validate(){                                                        //Validação do formulário
 
         const campos = document.querySelectorAll('.inputs')
-        const emailregex = /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])\x22))\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])\x5d))$/
+        const emailregex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i
         const telefoneregex = /^[1-9]{3}\d{7,8}$/
         const cpfregex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/
 
@@ -109,6 +81,39 @@ const Form= () => {
     
         return true;
     }
+
+    const paises = async () => {
+        const API_URL = "https://amazon-api.sellead.com/country"
+        try {
+          const res = await axios.get(API_URL, {
+            headers: {},
+            params: {}
+          });
+          setFormValues({ 
+            ...formvalues, 
+            listadepaises: res.data,
+          })
+        } catch (err) {
+          console.log(err);
+        }
+    };
+
+    const cidades = async () => {
+        const API_URL = "https://amazon-api.sellead.com/city"
+        try {
+          const res = await axios.get(API_URL, {
+            headers: {},
+            params: {}
+          });
+          setFormValues({ 
+            ...formvalues, 
+            listadecidades: res.data,
+          })
+        } catch (err) {
+          console.log(err);
+        }
+    };
+
 
         return (
             <body>
@@ -143,29 +148,29 @@ const Form= () => {
 
                         <div>
                             <label>Escolha um ou mais países</label><br></br>
-                            <InputLabel id="demo-multiple-checkbox-label">Selecione</InputLabel>
                             <Select
+                            class="selects"
                             labelId="demo-multiple-checkbox-label"
                             id="demo-multiple-checkbox"
                             multiple
-                            value={formvalues.pais}
+                            value={formvalues.pais||''}
                             onChange={handleInputChange}
                             input={<OutlinedInput label="Tag" />}
                             renderValue={(selected) => selected.join(', ')}
                             >
-                            {paises.map((name) => (
+                            {formvalues.listadepaises.map((name) => (
                                 <MenuItem key={name} value={name}>
                                 <Checkbox checked={formvalues.pais.indexOf(name) > -1} />
                                 <ListItemText primary={name} />
                                 </MenuItem>
                             ))}
                             </Select>
-                            <select onChange={handleInputChange} name="pais"  class="selects" value={formvalues.pais|| ''}>
+                            {/*<select onChange={handleInputChange} name="pais"  class="selects" value={formvalues.pais|| ''}>
                                 <option select disabled option="">Selecione</option>
                                 <option>a</option>
                                 <option>b</option>
                                 <option>c</option>
-                            </select>
+                            </select>*/}
                         </div>
                         <div>
                             <label>Escolha uma ou mais cidades</label><br></br>
