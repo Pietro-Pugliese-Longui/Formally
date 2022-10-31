@@ -11,8 +11,6 @@ import { Code } from '@mui/icons-material';
 
 
 const Form= () => {
-
-   
     const [formvalues, setFormValues] = useState ({
         citieslist:[],
         countrieslist:[],
@@ -26,7 +24,6 @@ const Form= () => {
     const handleInputChange =(e) =>{                              //Pega os dados que o usuário está inserindo em tempo real.
         const {name, value} = e.target;
         setFormValues({...formvalues,[name]: value})
-
     }
 
     const handleSubmit =(e) =>{                                   //Pega os dados que o usuário preencheu no formulário.
@@ -55,17 +52,12 @@ const Form= () => {
 
     }
 
-    console.log('***handleinputchange', formvalues)
-
-
     function validate(){                                                        //Validação do formulário
 
         const campos = document.querySelectorAll('.inputs')
         const emailregex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i
         const telefoneregex = /^[1-9]{3}\d{7,8}$/
         const cpfregex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/
-
-
 
         if(!formvalues.nome) return setStatus({type: 'error', mensagem: 'É necessário preencher o campo Nome!'});
         if(!formvalues.email) return setStatus({type: 'error', mensagem: 'É necessário preencher o campo E-mail!'});
@@ -76,13 +68,9 @@ const Form= () => {
         if(emailregex.test(campos[1].value)) return setStatus({type: 'error', mensagem: 'É necessário preencher um E-mail válido!'});
         if(telefoneregex.test(campos[2].value)) return setStatus({type: 'error', mensagem: 'É necessário preencher um Telefone válido!'});
         if(cpfregex.test(campos[3].value)) return setStatus({type: 'error', mensagem: 'É necessário preencher um CPF válido!'});
-
-
     
         return true;
     }
-
-    
 
     const countries = async () => {
         const API_URL = "https://amazon-api.sellead.com/country"
@@ -116,15 +104,12 @@ const Form= () => {
         }
     };
 
-     /*useEffect (() => {    //Popula citieslist e countrieslist 
-       countries();
+    useEffect (() => {    //Popula citieslist e countrieslist 
+        countries();
         cities();
+     });
+     console.log("***handleInputChange", formvalues)
 
-     });*/
-
-
-
-    
         return (
             <body>
                 
@@ -158,7 +143,7 @@ const Form= () => {
 
                         <div>
                             <label>Escolha um ou mais países</label><br></br>
-                            {/*<Select                                                          //código com o select múltiplo populado pela API
+                            {<Select                                                          //código com o select múltiplo populado pela API
                             name="pais"
                             class="selects"
                             labelId="demo-multiple-checkbox-label"
@@ -169,20 +154,16 @@ const Form= () => {
                             input={<OutlinedInput label="Tag" />}
                             renderValue={(selected) => selected.join(', ')}
                             >
-                            {formvalues.countrieslist.map((name) => (
-                                <MenuItem key={Code} value={name}>
-                                <Checkbox checked={formvalues.countrieslist.indexOf(name) > -1} />
-                                <ListItemText primary={name} />
+                            {formvalues.countrieslist.map((countries) => (
+                                <MenuItem key={countries.code} value={countries.name}>
+                                <Checkbox checked={formvalues.countrieslist.indexOf(countries.name) > -1} />
+                                <ListItemText primary={countries.name} />
                                 </MenuItem>
                             ))}
-                            </Select>*/}
-                            <select onChange={handleInputChange} name="pais"  class="selects" value={formvalues.pais|| ''}>
-                                <option select disabled option="">Selecione</option>
-                                <option>a</option>
-                                <option>b</option>
-                                <option>c</option>
-                            </select>
+                            </Select>}
+                            
                         </div>
+
                         <div>
                             <label>Escolha uma ou mais cidades</label><br></br>
                             <select onChange={handleInputChange} name="cidade"  class="selects">
@@ -206,7 +187,5 @@ const Form= () => {
     
     
 }
-
-
 
 export default Form
