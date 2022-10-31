@@ -34,7 +34,7 @@ const Form= () => {
         const formData = new FormData(e.target)
         const data = Object.fromEntries(formData)
         console.log('***handleSubmit', data)
-
+        
         if(!validate()) return;                                  //Quando submetido verifica a validação do formulário
         
 
@@ -116,11 +116,11 @@ const Form= () => {
         }
     };
 
-     useEffect (() => {    //Popula citieslist e countrieslist 
+     /*useEffect (() => {    //Popula citieslist e countrieslist 
        countries();
         cities();
 
-     });
+     });*/
 
 
 
@@ -158,7 +158,7 @@ const Form= () => {
 
                         <div>
                             <label>Escolha um ou mais países</label><br></br>
-                            <Select
+                            {/*<Select                                                          //código com o select múltiplo populado pela API
                             name="pais"
                             class="selects"
                             labelId="demo-multiple-checkbox-label"
@@ -175,24 +175,17 @@ const Form= () => {
                                 <ListItemText primary={name} />
                                 </MenuItem>
                             ))}
-                            </Select>
-                            {/*<select onChange={handleInputChange} name="pais"  class="selects" value={formvalues.pais|| ''}>
+                            </Select>*/}
+                            <select onChange={handleInputChange} name="pais"  class="selects" value={formvalues.pais|| ''}>
                                 <option select disabled option="">Selecione</option>
                                 <option>a</option>
                                 <option>b</option>
                                 <option>c</option>
-                            </select>*/}
+                            </select>
                         </div>
                         <div>
                             <label>Escolha uma ou mais cidades</label><br></br>
                             <select onChange={handleInputChange} name="cidade"  class="selects">
-                            {formvalues.citieslist.map((name)=>(
-                                <option
-                                    key={Code}
-                                    value={name}
-                                >{name}</option> 
-                            ))} 
-                                
                                 <option select disabled option>Selecione</option>
                                 <option>a</option>
                                 <option>b</option>
